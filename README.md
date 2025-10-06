@@ -17,13 +17,13 @@
 
 ## 📋 Tabla de Contenidos
 
-1.  [**🎯 Descripción General**](#-descripción-general)
-2.  [**✨ Características Principales**](#-características-principales)
-3.  [**🏛️ Arquitectura del Proyecto**](#️-arquitectura-del-proyecto)
-4.  [**🚀 Guía de Inicio Rápido**](#-guía-de-inicio-rápido)
-5.  [**💰 Implementación de FinOps**](#-implementación-de-finops)
-6.  [**🔒 Prácticas de Seguridad**](#-prácticas-de-seguridad)
-7.  [**🤝 Contribuciones y Contacto**](#-contribuciones-y-contacto)
+1. [**🎯 Descripción General**](#-descripción-general)
+2. [**✨ Características Principales**](#-características-principales)
+3. [**🏛️ Arquitectura del Proyecto**](#️-arquitectura-del-proyecto)
+4. [**🚀 Guía de Inicio Rápido**](#-guía-de-inicio-rápido)
+5. [**💰 Implementación de FinOps**](#-implementación-de-finops)
+6. [**🔒 Prácticas de Seguridad**](#-prácticas-de-seguridad)
+7. [**🤝 Contribuciones y Contacto**](#-contribuciones-y-contacto)
 
 ---
 
@@ -65,31 +65,15 @@ terraform-aws-enterprise-foundation/
 ├── LICENSE            # Licencia del proyecto
 └── README.md          # Este archivo
 
-🚀 Guía de Inicio Rápido
-Prerrequisitos
-Terraform: >= 1.5.0
-
-AWS CLI: Configurado con credenciales válidas (aws configure)
-
-Git: Instalado y configurado
-
-Secuencia de Despliegue
-Sigue los scripts en orden numérico desde la raíz del proyecto para un despliegue controlado y seguro.
-
-<details>
-<summary>💻 Ver y Copiar Secuencia de Comandos</summary>
-
-Bash
-
 # 1. Clonar el repositorio
-git clone [https://github.com/jgaragorry/terraform-aws-enterprise-foundation.git](https://github.com/jgaragorry/terraform-aws-enterprise-foundation.git)
+git clone https://github.com/jgaragorry/terraform-aws-enterprise-foundation.git
 cd terraform-aws-enterprise-foundation
 
 # 2. Hacer los scripts ejecutables
-# Este paso es crucial para poder ejecutar los scripts.
 chmod +x scripts/*.sh
 
 # 3. Ejecutar la secuencia de despliegue en orden
+
 # FASE 1: Configurar el backend remoto
 ./scripts/01-setup-backend.sh
 
@@ -98,43 +82,7 @@ chmod +x scripts/*.sh
 
 # FASE 3: Aplicar el plan y crear la infraestructura
 ./scripts/03-deploy-infrastructure.sh
-</details>
-
-Limpieza de Recursos
-Para evitar costos innecesarios, destruye toda la infraestructura una vez que hayas terminado el laboratorio.
-
-Bash
 
 # (MUY IMPORTANTE) Destruir la infraestructura al finalizar
 ./scripts/05-destroy-resources.sh
-💰 Implementación de FinOps
-Este proyecto incluye prácticas de FinOps desde el inicio:
 
-Informes de Costos: El script 04-cost-reporting.sh permite visualizar los costos asociados al proyecto.
-
-Etiquetado para Asignación de Costos: Todas las etiquetas obligatorias (Project, CostCenter, Environment) permiten un seguimiento detallado en AWS Cost Explorer.
-
-Selección de Recursos Optimizada: Se utilizan instancias t3.micro por defecto para mantener los costos bajos en el entorno de desarrollo.
-
-🔒 Prácticas de Seguridad
-La seguridad es un pilar fundamental de esta base de código:
-
-Estado Remoto Seguro: El backend de Terraform está configurado para encriptar el archivo de estado en reposo.
-
-Metadatos de Instancia (IMDSv2): Se requiere el uso de IMDSv2 en las instancias EC2, lo que mitiga vulnerabilidades de SSRF.
-
-Volúmenes Encriptados: Los volúmenes EBS de las instancias se encriptan por defecto.
-
-Hardening del Sistema Operativo: El script user-data instala fail2ban y configura actualizaciones de seguridad automáticas.
-
-🤝 Contribuciones y Contacto
-Las contribuciones son bienvenidas. Si encuentras un problema o tienes una sugerencia, por favor abre un issue. Para contacto directo, puedes encontrarme en:
-
-<p align="center">
-<a href="https://www.google.com/url?sa=E&source=gmail&q=https://www.linkedin.com/in/jorge-garagorry-a6078652/" target="_blank">
-<img src="https://www.google.com/url?sa=E&source=gmail&q=https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge%26logo=linkedin%26logoColor=white" alt="LinkedIn">
-</a>
-<a href="https://www.google.com/url?sa=E&source=gmail&q=https://github.com/jgaragorry" target="_blank">
-<img src="https://www.google.com/url?sa=E&source=gmail&q=https://img.shields.io/badge/GitHub-181717?style=for-the-badge%26logo=github%26logoColor=white" alt="GitHub">
-</a>
-</p>
