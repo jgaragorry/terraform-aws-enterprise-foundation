@@ -43,12 +43,6 @@ Este repositorio proporciona una base de **Infraestructura como Código (IaC)** 
 
 La estructura del repositorio está diseñada para ser escalable y mantenible, separando la lógica en módulos y la configuración por ambientes.
 
-### 📐 Diagrama de Arquitectura
-
-<p align="center">
-  <img src="https://github.com/jgaragorry/terraform-aws-enterprise-foundation/blob/main/docs/images/architecture.png?raw=true" alt="Diagrama de Arquitectura" width="700"/>
-</p>
-
 <details>
 <summary>📄 Ver Estructura de Directorios en Texto</summary>
 
@@ -65,6 +59,7 @@ terraform-aws-enterprise-foundation/
 ```
 
 </details>
+
 
 ---
 
