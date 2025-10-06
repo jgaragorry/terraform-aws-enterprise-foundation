@@ -43,3 +43,7 @@ resource "aws_instance" "main" {
 
   tags = merge(var.tags, { Name = "${var.tags.Project}-instance" })
 }
+variable "key_name" {
+  description = "Nombre del par de claves de EC2."
+  type        = string
+}

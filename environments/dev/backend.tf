@@ -3,10 +3,10 @@
 
 terraform {
   backend "s3" {
-    bucket         = "tf-enterprise-foundation-tfstate-1759784940"
-    key            = "dev/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "tf-enterprise-foundation-tf-locks"
-    encrypt        = true
+    bucket  = "tf-enterprise-foundation-tfstate-1759788662"
+    key     = "dev/terraform.tfstate"
+    region  = "us-east-1"
+    # La línea 'dynamodb_table' se elimina ya que S3 ahora lo maneja automáticamente
+    encrypt = true
   }
 }

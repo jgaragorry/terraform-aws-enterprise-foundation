@@ -19,6 +19,7 @@ module "compute" {
   source = "../../modules/compute"
 
   instance_type   = var.instance_type
+  key_name        = var.key_name # <-- AÑADE ESTA LÍNEA
   subnet_ids      = module.networking.subnet_ids
   vpc_id          = module.networking.vpc_id
   ssh_allowed_ip  = var.my_ip_for_ssh
