@@ -64,7 +64,22 @@ terraform-aws-enterprise-foundation/
 ├── .gitignore         # Archivos a ignorar por Git
 ├── LICENSE            # Licencia del proyecto
 └── README.md          # Este archivo
+</details>
 
+🚀 Guía de Inicio Rápido
+Prerrequisitos
+Terraform: >= 1.5.0
+
+AWS CLI: Configurado con credenciales válidas (aws configure)
+
+Git: Instalado y configurado
+
+Secuencia de Despliegue
+Sigue los scripts en orden numérico desde la raíz del proyecto para un despliegue controlado y seguro.
+
+<details> <summary>💻 Ver y Copiar Secuencia de Comandos</summary>
+
+bash
 # 1. Clonar el repositorio
 git clone https://github.com/jgaragorry/terraform-aws-enterprise-foundation.git
 cd terraform-aws-enterprise-foundation
@@ -82,7 +97,33 @@ chmod +x scripts/*.sh
 
 # FASE 3: Aplicar el plan y crear la infraestructura
 ./scripts/03-deploy-infrastructure.sh
+</details>
 
+Limpieza de Recursos
+bash
 # (MUY IMPORTANTE) Destruir la infraestructura al finalizar
 ./scripts/05-destroy-resources.sh
+💰 Implementación de FinOps
+Este proyecto incluye prácticas de FinOps desde el inicio:
 
+Informes de Costos: El script 04-cost-reporting.sh permite visualizar los costos asociados al proyecto.
+
+Etiquetado para Asignación de Costos: Todas las etiquetas obligatorias (Project, CostCenter, Environment) permiten un seguimiento detallado en AWS Cost Explorer.
+
+Selección de Recursos Optimizada: Se utilizan instancias t3.micro por defecto para mantener los costos bajos en el entorno de desarrollo.
+
+🔒 Prácticas de Seguridad
+La seguridad es un pilar fundamental de esta base de código:
+
+Estado Remoto Seguro: El backend de Terraform está configurado para encriptar el archivo de estado en reposo.
+
+Metadatos de Instancia (IMDSv2): Se requiere el uso de IMDSv2 en las instancias EC2, lo que mitiga vulnerabilidades de SSRF.
+
+Volúmenes Encriptados: Los volúmenes EBS de las instancias se encriptan por defecto.
+
+Hardening del Sistema Operativo: El script user-data instala fail2ban y configura actualizaciones de seguridad automáticas.
+
+🤝 Contribuciones y Contacto
+Las contribuciones son bienvenidas. Si encuentras un problema o tienes una sugerencia, por favor abre un issue. Para contacto directo, puedes encontrarme en:
+
+<p align="center"> <a href="https://www.linkedin.com/in/jorge-garagorry-a6078652/" target="_blank"> <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"> </a> <a href="https://github
