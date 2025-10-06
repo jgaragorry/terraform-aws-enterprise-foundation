@@ -1,4 +1,8 @@
-# 🏗️ Terraform AWS Enterprise Foundation 🏗️
+<h1>
+  <p align="center">
+    🏗️ Terraform AWS Enterprise Foundation 🏗️
+  </p>
+</h1>
 
 <p align="center">
   <a href="https://www.linkedin.com/in/jorge-garagorry-a6078652/" target="_blank">
@@ -32,10 +36,11 @@ Este repositorio proporciona una base de **Infraestructura como Código (IaC)** 
 ## ✨ Características Principales
 
 - 🏗️ Diseño Modular: Componentes de infraestructura reutilizables y componibles (`networking`, `compute`, `tagging`).
-- 💰 Integración con FinOps: Esquema de etiquetado consistente para la asignación de costos, presupuestos e informes.
-- 🔒 Seguridad por Defecto: Configuración inicial con prácticas de seguridad como volúmenes EBS encriptados y metadatos de instancia seguros (IMDSv2).
-- 🚀 Listo para DevOps: Gestión de estado remoto, bloqueo de estado para colaboración y un flujo de trabajo automatizado mediante scripts.
-- 📄 Documentación como Código: Guías de arquitectura, etiquetado y FinOps directamente en el repositorio.
+- `terraform.tfvars`: Personalización sencilla de la infraestructura sin modificar el código principal.
+- Outputs Definidos: Proporciona información clave (como IPs públicas) después del despliegue.
+- 💰 Integración con FinOps: Esquema de etiquetado consistente y scripts de limpieza para control de costos.
+- 🔒 Seguridad Mejorada: Reglas de firewall parametrizadas para restringir el acceso.
+- 🚀 Flujo de Trabajo Automatizado: Scripts para todo el ciclo de vida de la infraestructura.
 
 ---
 
@@ -43,67 +48,67 @@ Este repositorio proporciona una base de **Infraestructura como Código (IaC)** 
 
 La estructura del repositorio está diseñada para ser escalable y mantenible, separando la lógica en módulos y la configuración por ambientes.
 
-<details>
-<summary>📄 Ver Estructura de Directorios en Texto</summary>
-
-```plaintext
-terraform-aws-enterprise-foundation/
-├── modules/         # Módulos de Terraform reutilizables
-├── environments/    # Configuración por ambiente (dev, prod)
-├── scripts/         # Scripts para automatizar el flujo de trabajo
-├── docs/            # Documentación del proyecto
-├── budgets/         # Archivos de configuración de presupuestos (FinOps)
-├── .gitignore       # Archivos a ignorar por Git
-├── LICENSE          # Licencia del proyecto
-└── README.md        # Este archivo
-```
-
-</details>
-
+<!-- Si no tienes esta imagen, elimina este bloque -->
+<p align="center">
+  <img src="https://github.com/jgaragorry/terraform-aws-enterprise-foundation/blob/main/docs/images/architecture.png?raw=true" alt="Diagrama de Arquitectura" width="700"/>
+</p>
 
 ---
 
 ## 🚀 Guía de Inicio Rápido
 
+### ⚠️ Nota Importante
+
+**Todos los scripts deben ejecutarse desde el directorio raíz del proyecto**, no desde dentro de la carpeta `scripts/`.
+
 ### Prerrequisitos
 
-- Terraform: >= 1.5.0  
-- AWS CLI: Configurado con credenciales válidas (`aws configure`)  
-- Git: Instalado y configurado  
+- **Terraform:** `>= 1.5.0`
+- **AWS CLI:** Configurado con credenciales válidas (`aws configure`)
+- **Git:** Instalado y configurado
 
-### Secuencia de Despliegue
+### 1. Configuración Inicial
 
-Sigue los scripts en orden numérico desde la raíz del proyecto para un despliegue controlado y seguro.
+Antes de desplegar, personaliza tu infraestructura editando el archivo `environments/dev/terraform.tfvars`. Es especialmente importante que actualices el valor de `my_ip_for_ssh`.
+
+```hcl
+# environments/dev/terraform.tfvars
+
+# Reemplaza "0.0.0.0/0" con tu IP pública seguida de /32 para máxima seguridad.
+# Puedes encontrar tu IP buscando "what is my ip" en Google.
+my_ip_for_ssh = "TU_IP_PUBLICA/32"
+```
+
+### 2. Secuencia de Despliegue
+
+Sigue los scripts en orden numérico para un despliegue controlado y seguro.
 
 <details>
 <summary>💻 Ver y Copiar Secuencia de Comandos</summary>
 
 ```bash
-# 1. Clonar el repositorio
-git clone https://github.com/jgaragorry/terraform-aws-enterprise-foundation.git
-cd terraform-aws-enterprise-foundation
+# Opcional: Ejecutar solo si necesitas limpiar un despliegue anterior fallido.
+./scripts/cleanup-backend.sh
 
-# 2. Hacer los scripts ejecutables
+# 1. Dar permisos de ejecución a los scripts (solo la primera vez).
 chmod +x scripts/*.sh
 
-# 3. Ejecutar la secuencia de despliegue en orden
-
-# FASE 1: Configurar el backend remoto
+# 2. Configurar el backend remoto (S3 y DynamoDB).
 ./scripts/01-setup-backend.sh
 
-# FASE 2: Inicializar el proyecto y generar el plan
+# 3. Inicializar Terraform y crear el plan de ejecución.
 ./scripts/02-initialize-project.sh
 
-# FASE 3: Aplicar el plan y crear la infraestructura
+# 4. Aplicar el plan y crear la infraestructura en AWS.
 ./scripts/03-deploy-infrastructure.sh
 ```
 
 </details>
 
-### Limpieza de Recursos
+### 3. Limpieza de Recursos
 
 ```bash
-# (MUY IMPORTANTE) Destruir la infraestructura al finalizar
+# (MUY IMPORTANTE) Destruir la infraestructura al finalizar.
 ./scripts/05-destroy-resources.sh
 ```
 
@@ -111,22 +116,16 @@ chmod +x scripts/*.sh
 
 ## 💰 Implementación de FinOps
 
-Este proyecto incluye prácticas de FinOps desde el inicio:
-
-- Informes de Costos: El script `04-cost-reporting.sh` permite visualizar los costos asociados al proyecto.
-- Etiquetado para Asignación de Costos: Todas las etiquetas obligatorias (`Project`, `CostCenter`, `Environment`) permiten un seguimiento detallado en AWS Cost Explorer.
-- Selección de Recursos Optimizada: Se utilizan instancias `t3.micro` por defecto para mantener los costos bajos en el entorno de desarrollo.
+- **Visibilidad de Costos:** El script `04-cost-reporting.sh` permite visualizar los costos asociados al proyecto.
+- **Control de Recursos:** La destrucción controlada (`05-destroy-resources.sh`) y la limpieza del backend (`cleanup-backend.sh`) aseguran que no queden recursos facturando.
 
 ---
 
 ## 🔒 Prácticas de Seguridad
 
-La seguridad es un pilar fundamental de esta base de código:
-
-- Estado Remoto Seguro: El backend de Terraform está configurado para encriptar el archivo de estado en reposo.
-- Metadatos de Instancia (IMDSv2): Se requiere el uso de IMDSv2 en las instancias EC2, lo que mitiga vulnerabilidades de SSRF.
-- Volúmenes Encriptados: Los volúmenes EBS de las instancias se encriptan por defecto.
-- Hardening del Sistema Operativo: El script `user-data` instala `fail2ban` y configura actualizaciones de seguridad automáticas.
+- **Acceso Restringido:** La regla de SSH ahora está controlada por la variable `my_ip_for_ssh`, permitiendo un acceso mucho más seguro.
+- **Estado Remoto Seguro:** El backend de Terraform está configurado para encriptar el archivo de estado en reposo.
+- **Metadatos de Instancia (IMDSv2):** Se requiere el uso de IMDSv2 en las instancias EC2 para mitigar vulnerabilidades.
 
 ---
 
