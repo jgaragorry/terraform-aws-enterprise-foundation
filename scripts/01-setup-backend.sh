@@ -30,13 +30,12 @@ cat > "$BACKEND_CONFIG_FILE" << EOF
 
 terraform {
   backend "s3" {
-    bucket         = "$TERRAFORM_BUCKET"
-    key            = "dev/terraform.tfstate"
-    region         = "$AWS_REGION"
-    dynamodb_table = "$DYNAMODB_TABLE"
-    encrypt        = true
+    bucket  = "$TERRAFORM_BUCKET"
+    key     = "dev/terraform.tfstate"
+    region  = "$AWS_REGION"
+    # La línea 'dynamodb_table' se elimina ya que S3 ahora lo maneja automáticamente
+    encrypt = true
   }
 }
 EOF
-
 echo "✅ ¡Configuración del Backend completada!"
