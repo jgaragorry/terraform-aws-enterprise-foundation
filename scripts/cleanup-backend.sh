@@ -1,6 +1,4 @@
 #!/bin/bash
-# Propósito: Eliminar de forma segura los recursos del backend (S3 y DynamoDB).
-# Uso: Ejecutar cuando una creación del backend falle o para una limpieza total.
 set -e
 
 PROJECT_NAME="tf-enterprise-foundation"
@@ -17,9 +15,13 @@ if [ -z "$BUCKETS" ]; then
     echo "✅ No se encontraron buckets S3 para limpiar."
 else
     for bucket in $BUCKETS; do
-        echo "🗑️  Eliminando bucket S3: $bucket..."
-        # El flag --force es crucial: vacía el bucket (incluyendo versiones) y luego lo elimina.
-        aws s3 rb "s3://$bucket" --force
+        echo "🔥 Vaciando todas las versiones de objetos del bucket $bucket..."
+        # Este comando elimina todas las versiones de objetos y marcadores de borrado.
+        aws s3api delete-objects --bucket $bucket --delete "$(aws s3api list-object-versions --bucket $bucket --query='{Objects: Versions[].{Key:Key,VersionId:VersionId}}')" > /dev/null 2>&1 || true
+        aws s3api delete-objects --bucket $bucket --delete "$(aws s3api list-object-versions --bucket $bucket --query='{Objects: DeleteMarkers[].{Key:Key,VersionId:VersionId}}')" > /dev/null 2>&1 || true
+        
+        echo "🗑️ Eliminando bucket S3: $bucket..."
+        aws s3api delete-bucket --bucket $bucket
         echo "✅ Bucket $bucket eliminado."
     done
 fi
@@ -27,7 +29,7 @@ fi
 # --- Limpieza de Tabla DynamoDB ---
 echo "🔍 Verificando si la tabla DynamoDB '$DYNAMODB_TABLE' existe..."
 if aws dynamodb describe-table --table-name "$DYNAMODB_TABLE" > /dev/null 2>&1; then
-    echo "🗑️  Eliminando tabla DynamoDB: $DYNAMODB_TABLE..."
+    echo "🗑️ Eliminando tabla DynamoDB: $DYNAMODB_TABLE..."
     aws dynamodb delete-table --table-name "$DYNAMODB_TABLE"
     echo "⏳ Esperando a que la tabla sea eliminada por completo..."
     aws dynamodb wait table-not-exists --table-name "$DYNAMODB_TABLE"
