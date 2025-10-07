@@ -22,3 +22,7 @@ variable "my_ip_for_ssh" {
   description = "Tu IP pública para permitir el acceso SSH."
   type        = string
 }
+variable "key_name" {
+  description = "Nombre del par de claves de EC2."
+  type        = string
+}
