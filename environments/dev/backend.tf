@@ -3,7 +3,7 @@
 
 terraform {
   backend "s3" {
-    bucket  = "tf-enterprise-foundation-tfstate-1759788662"
+    bucket  = "tf-enterprise-foundation-tfstate-1759847659"
     key     = "dev/terraform.tfstate"
     region  = "us-east-1"
     # La línea 'dynamodb_table' se elimina ya que S3 ahora lo maneja automáticamente
