@@ -36,6 +36,7 @@ resource "aws_security_group" "instance" {
 resource "aws_instance" "main" {
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
+  key_name                    = var.key_name
   subnet_id              = var.subnet_ids[0]
   vpc_security_group_ids = [aws_security_group.instance.id]
   # Necesitamos una IP pública para conectarnos y para que la instancia tenga salida a internet
